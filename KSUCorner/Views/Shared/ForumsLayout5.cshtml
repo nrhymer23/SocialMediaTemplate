@@ -1,0 +1,191 @@
+@model IEnumerable<KSUCorner.Models.ForumListItem>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - KSU Corner</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var currentTab = window.location.pathname;
+            if (currentTab == null || currentTab.split("/").length < 3)
+                currentTab = "Index";
+            else {
+                currentTab = (currentTab.split("/"))[2];
+                if (currentTab.length == 0)
+                    currentTab = "Index";
+            }
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetTabs/" + currentTab,
+                success: function (response) {
+                    var off = response.indexOf(":");
+                    var head = "";
+                    var tabs = "";
+                    if (off == -1)
+                        tabs = response;
+                    else {
+                        head = response.substring(0, off);
+                        tabs = response.substring(off + 1);
+                    }
+                    $("#headcontainer").html(head);
+                    $("#menucontainer").html(tabs);
+                },
+                error: function (e) {
+                    alert("Error: " + e.responseText);
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-image: url('/Images/background7.jpg')">
+        <div class="container">
+            <div class="navbar-header">
+                <div id="headcontainer">
+                </div>
+                <div id="menucontainer">
+                </div>
+                <div class="navbar-collapse collapse">
+                </div>
+            </div>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <p></p>
+
+            <div class="firstindent">
+
+              @{
+                  bool isGroup = (Convert.ToInt32(ViewBag.ID) < 0);
+                  int itemNo = 0;
+                  <table width="800" cellspacing="5" cellpadding="6">
+                      <tr>
+                      <td style="border:none;">@Html.Raw(ViewBag.Label1)</td>
+                      <td width="160" style="border:none;">@Html.ActionLink("New Topic", "NewForum", new { id = ViewBag.ID })
+@if (ViewBag.Status == "Owner") {
+                      string barStr = "|";
+                      @barStr
+                      @Html.ActionLink("Edit", "EditForumCategory", new { id = ViewBag.ID })
+                      @barStr
+                      @Html.ActionLink("Delete", "DeleteForumCategory", new { id = ViewBag.ID })
+}
+                      </td>
+                      </tr>
+
+                      @foreach (var item in Model) {
+                      ++itemNo;
+                      string cellstr = "datacellone_nobold";
+                      if (itemNo % 2 == 0) {
+                          cellstr = "datacelltwo_nobold";
+                      }
+                      <tr>
+                      <td class="@cellstr" colspan="2">
+                      <table width="790" cellspacing="0" cellpadding="0" style="border:none;">
+                      <tr><td width="600" valign="top" align="left" style="border:none;">
+@if (itemNo % 2 == 1) {
+                      <span class="colortext_darkred_nobold">
+                      <a href="/Home/OpenForum/@item.id" style="color: #8b0000;">@item.title</a></span>
+} else {
+                      <span class="colortext_blue_nobold">
+                      <a href="/Home/OpenForum/@item.id" style="color: #0000ff;">@item.title</a></span>
+}
+@if (!String.IsNullOrWhiteSpace(item.description)) {
+                      string dashStr = " - ";
+                      @dashStr
+                      @item.description
+}
+                      <p></p>
+                      <table border="0" cellspacing="2" cellpadding="2">
+                      <tr>
+                      <td class="datacellthreesmall_nobold">@item.count
+@if (item.count == 1) {
+                      string replyStr = "Reply";
+                      @replyStr
+} else {
+                      string repliesStr = "Replies";
+                      @repliesStr
+}
+                      </td>
+                      <td class="datacellthreesmall_nobold">@item.count2
+@if (item.count2 == 1) {
+                      string viewStr = "View";
+                      @viewStr
+} else {
+                      string viewsStr = "Views";
+                      @viewsStr
+}
+                      </td>
+                      </tr>
+                      </table>
+                      
+                      </td>
+                      <td width="190" valign="top" style="border:none;">
+                      Posted on<br />
+                      @if (item.createdOn.ToString().IndexOf(" ") > -1)
+                      {
+                          string dateStr = item.createdOn.ToString();
+                          int n = dateStr.IndexOf(" ");
+                          string outputStr = dateStr.Substring(0, n) +
+                                          "<br />At" + dateStr.Substring(n);
+                          @Html.Raw(outputStr);
+                      }
+                      else
+                      {
+                          @item.createdOn;
+                      }
+                      <br />@Html.Raw(item.createdBy)
+                      </td>
+                      </tr>
+                      </table>
+
+                      </td>
+                      </tr>
+                        
+                      }
+
+                      @if (itemNo == 0) {
+                        <tr>
+                            <td style="width:800px;" colspan="2">&nbsp;</td>
+                        </tr>
+                      }
+                      </table>
+
+                  if (itemNo == 0) {
+                  <p style="color:#800080">
+                  <i><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There are no Postings in this Forum yet.</b></i>
+                  </p>
+                  }
+             }
+                @if (!isGroup)
+                {
+                    <p></p>
+                    <button type="button" onclick="window.location='/Home/NewForumCategory'">Create New Forum Category</button>
+                    <p>&nbsp;</p>
+                }
+
+
+            </div>
+        <footer>
+            <p>&copy; @DateTime.Now.Year - KSU Corner</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+

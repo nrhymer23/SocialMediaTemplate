@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title - KSU Corner</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        <script src="/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+
+        <style type="text/css">
+        #main
+        {
+            padding: 30px 30px 15px 30px;
+            background-color: #fff;
+            color: #000;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            _height: 1px; /* only IE6 applies CSS properties starting with an underscore */
+        }
+        </style>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/Content/License.txt",
+                    data: "",
+                    success: function (response) {
+                        document.getElementById("termsagreement").value = response;
+                    }
+                });
+            });
+         </script>
+    </head>
+    <body>
+        <div class="container body-content">
+        @RenderBody()
+        <p></p>
+                  <table border="0" cellspacing="5" cellpadding="6">
+                      <tr>
+                      <td class="datacellfour" colspan="3">
+                      @Html.Raw(ViewBag.Label1):
+                      </td>
+                      </tr>
+                      <tr>
+                      <td colspan="2">
+                      @Html.TextArea("termsagreement", "", 16, 80, new {@readonly = true})
+                      </td>
+                      </tr>
+                  </table>
+
+        </div>
+        <footer>
+            <p>&copy; @DateTime.Now.Year - KSU Corner</p>
+        </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

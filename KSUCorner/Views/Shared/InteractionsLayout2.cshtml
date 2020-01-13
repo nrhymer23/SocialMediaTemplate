@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - KSU Corner</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+            $(document).ready(function () {
+                var currentTab = window.location.pathname;
+                if (currentTab == null || currentTab.split("/").length < 3)
+                    currentTab = "Index";
+                else {
+                    currentTab = (currentTab.split("/"))[2];
+                    if (currentTab.length == 0)
+                        currentTab = "Index";
+                }
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/GetTabs/" + currentTab,
+                    success: function (response) {
+                        var off = response.indexOf(":");
+                        var head = "";
+                        var tabs = "";
+                        if (off == -1)
+                            tabs = response;
+                        else {
+                            head = response.substring(0, off);
+                            tabs = response.substring(off + 1);
+                        }
+                        $("#headcontainer").html(head);
+                        $("#menucontainer").html(tabs);
+                    },
+                    error: function (e) {
+                        alert("Error: " + e.responseText);
+                    }
+                });
+            });
+    </script>
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-image: url('/Images/background7.jpg')">
+        <div class="container">
+            <div class="navbar-header">
+                <div id="headcontainer">
+                </div>
+                <div id="menucontainer">
+                </div>
+                <div class="navbar-collapse collapse">
+                </div>
+            </div>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <p></p>
+            <div class="firstindent">
+            @using (Html.BeginForm())
+            {
+                <table cellspacing="2" cellpadding="2" style="border:none;">
+                <tr>
+                <td style="border:none;">
+                    <p></p>
+                    <h3>@ViewBag.Label1</h3>
+                    @Html.DropDownList("MonthList")
+                    @Html.DropDownList("DayList")
+                    @Html.DropDownList("YearList")
+                    <p></p>
+                    <h3>@ViewBag.Label2</h3>
+                    @Html.DropDownList("HourList")
+                    @Html.DropDownList("MinuteList")
+                    @Html.DropDownList("AMPMList")
+                    <p></p>
+                    <h3>@ViewBag.Label3</h3>
+                    @ViewBag.Label4
+                    <br />
+                    <textarea id="LockOutReason" name="LockOutReason" rows="5" cols="60">@ViewBag.Reason</textarea>
+
+                    <p></p>
+                    <input type="submit" value="Lock Out" name="button" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="submit" value="Cancel" name="button" />
+                </td></tr>
+                </table>
+            }
+            </div>
+
+        <footer>
+            <p>&copy; @DateTime.Now.Year - KSU Corner</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+

@@ -1,0 +1,172 @@
+@model IEnumerable<KSUCorner.Models.Profile>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - KSU Corner</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var currentTab = window.location.pathname;
+            if (currentTab == null || currentTab.split("/").length < 3)
+                currentTab = "Index";
+            else {
+                currentTab = (currentTab.split("/"))[2];
+                if (currentTab.length == 0)
+                    currentTab = "Index";
+            }
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetTabs/" + currentTab,
+                success: function (response) {
+                    var off = response.indexOf(":");
+                    var head = "";
+                    var tabs = "";
+                    if (off == -1)
+                        tabs = response;
+                    else {
+                        head = response.substring(0, off);
+                        tabs = response.substring(off + 1);
+                    }
+                    $("#headcontainer").html(head);
+                    $("#menucontainer").html(tabs);
+                },
+                error: function (e) {
+                    alert("Error: " + e.responseText);
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-image: url('/Images/background7.jpg')">
+        <div class="container">
+            <div class="navbar-header">
+                <div id="headcontainer">
+                </div>
+                <div id="menucontainer">
+                </div>
+                <div class="navbar-collapse collapse">
+                </div>
+            </div>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <p></p>
+
+            <div class="firstindent">
+
+              <table border="1" cellspacing="5" cellpadding="6" width="800">
+              <tr>
+              <td class="datacellfour">
+                @using (Html.BeginForm()) {
+                <font size="3"><b>@Html.Raw(ViewBag.Label1): 
+                    @if (String.IsNullOrEmpty(ViewBag.Content1))
+                    {
+                        @Html.TextBox("SearchString")
+                    } else {
+                        @Html.TextBox("SearchString", new { value=ViewBag.Content1 })
+                    }
+                    </b></font>
+                <input type="submit" value="Search" />
+                }
+              </td>
+              </tr>
+              <tr>
+              <td>
+
+                @{
+                  int itemNo = 0;
+                  <table border="1" cellspacing="5" cellpadding="6">
+                  <tr>
+                  <td colspan="3">
+                  <font size="2"><b>@Html.Raw(ViewBag.Label2)</b></font>
+                  </td>
+                  </tr>
+                  <tr>
+                  @foreach (var item in Model) {
+                      <td>
+                      @{
+                          string linkstr = "";
+                          string dimStr = "";
+                          if (ViewBag.SearchType.ToString() == "Message") {
+                            linkstr = "NewMessage/" + @item.UserName;
+                          } else if (ViewBag.SearchType.ToString() == "Profile") {
+                            linkstr = "Profile/" + @item.UserName;
+                          } else if (ViewBag.SearchType.ToString() == "Friendship") {
+                            linkstr = "InviteFriend/" + @item.UserName;
+                          }
+                          if (item.AvatarIsPublic && !String.IsNullOrEmpty(item.AvatarPath)) {
+                             if (item.AvatarWidth < 60 || item.AvatarWidth > 230) {
+                                 dimStr = " width=\"200\" ";
+                             }
+                             if ((item.AvatarHeight > 2 * item.AvatarWidth && item.AvatarWidth > 230) ||
+                                      (item.AvatarHeight > 400 && item.AvatarWidth <= 230)) {
+                                  dimStr += "height=\"400\" ";
+                             }
+                          }
+                          if (ViewBag.SearchType.ToString() == "Message" ||
+                                   ViewBag.SearchType.ToString() == "Profile" ||
+                                        ViewBag.SearchType.ToString() == "Friendship") {
+                              if (item.AvatarIsPublic && !String.IsNullOrEmpty(item.AvatarPath)) {
+                                <a href="/Home/@linkstr">
+                                    <img src="@item.AvatarPath" alt="Profile Avatar" @dimStr />
+                                </a>
+                              } else {
+                                <a href="/Home/@linkstr">
+                                    @Html.Raw(ViewBag.DefaultAvatar)
+                                </a>
+                              }
+                          } else {
+                              if (item.AvatarIsPublic && !String.IsNullOrEmpty(item.AvatarPath)) {
+                                <img src="@item.AvatarPath" alt="Profile Avatar" @dimStr />
+                              } else {
+                                @Html.Raw(ViewBag.DefaultAvatar)
+                              }
+                          }
+                      }
+                      <br />
+                      @{
+                          string fullname = @item.FirstName + " " + @item.LastName +
+                                            " (" + item.UserName + ")";
+                          <b></b>@fullname
+                      }
+                      <br />
+                      @Html.ActionLink("View Profile", "Profile", new { id=item.UserName })<br />
+                      @Html.ActionLink("Send A Message", "NewMessage", new { id=item.UserName })<br />
+                      @Html.ActionLink("Invite To Be A Friend", "InviteFriend", new { id=item.UserName })<br />
+                      </td>
+                      
+                      int ival = ++itemNo;
+                      string tablebr = "</tr><tr>";
+                      if (ival % 4 == 0)
+                      {
+                          @Html.Raw(tablebr)
+                      }
+                  }
+                   </tr>
+                  </table>
+                 }
+               </td>
+               </tr>
+               </table>
+            </div>
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

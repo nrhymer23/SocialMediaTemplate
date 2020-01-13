@@ -1,0 +1,223 @@
+﻿@model IEnumerable<KSUCorner.Models.GalleryListItem>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title - KSU Corner</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+        <script src="/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var currentTab = window.location.pathname;
+                if (currentTab == null || currentTab.split("/").length < 3)
+                    currentTab = "Index";
+                else {
+                    currentTab = (currentTab.split("/"))[2];
+                    if (currentTab.length == 0)
+                        currentTab = "Index";
+                }
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/GetTabs/" + currentTab,
+                    success: function (response) {
+                        var off = response.indexOf(":");
+                        var head = "";
+                        var tabs = "";
+                        if (off == -1)
+                            tabs = response;
+                        else {
+                            head = response.substring(0, off);
+                            tabs = response.substring(off + 1);
+                        }
+                        $("#headcontainer").html(head);
+                        $("#menucontainer").html(tabs);
+                    },
+                    error: function (e) {
+                        alert("Error: " + e.responseText);
+                    }
+                });
+
+                td = document.getElementsByTagName('tr');
+                for (var i = 0; i < td.length; i++) {
+                    if (td[i].className.substring(0, 6) == 'rowset')
+                        if (!td[i].style.display)
+                            td[i].style.display = 'none';
+                        else
+                            td[i].style.display = '';
+                }
+            });
+
+            function toggleDiv(divId, divTag) {
+                var elem = $("." + divId)[0];
+                if (elem.style.display == 'none') {
+                    $("." + divId).show();
+                    $("#" + divTag).html('-');
+                } else {
+                    $("." + divId).hide();
+                    $("#" + divTag).html('+');
+                }
+            }
+        </script>
+        <style type="text/css">
+            a.hoverhilite:link
+            {
+        	    color:#000060;
+        	    text-decoration: none;
+            }
+            a.hoverhilite:visited
+            {
+               color:#000060;
+               text-decoration: none;
+            }
+            a.hoverhilite:hover
+            {
+               color:#800000;
+               text-decoration: none;
+            }
+            a.hoverhilite:active
+            {
+               color:#000060;
+               text-decoration: none;
+            }
+        </style>
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-image: url('/Images/background7.jpg')">
+        <div class="container">
+            <div class="navbar-header">
+                <div id="headcontainer">
+                </div>
+                <div id="menucontainer">
+                </div>
+                <div class="navbar-collapse collapse">
+                </div>
+            </div>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <p></p>
+
+            <div class="firstindent">
+
+            @using (Html.BeginForm("MultiDeleteGallery","Home")) {
+                  int itemNo = 0;
+                  int gallNo = 0;
+                  string titleStr = "";
+                  <table border="0" cellspacing="5" cellpadding="6">
+                      <tr>
+                      <td class="datacellfoursmall">&nbsp;</td>
+                      <td class="datacellfoursmall">
+                      @Html.ActionLink((string)ViewBag.Label1, "MediaGalleries", new { sortOrder = ViewBag.NameSortParm })</td>
+                      <td class="datacellfoursmall">
+                      @Html.ActionLink((string)ViewBag.Label2, "MediaGalleries", new { sortOrder = ViewBag.DescriptionSortParm })</td>
+                      <td class="datacellfoursmall">
+                      @Html.ActionLink((string)ViewBag.Label3, "MediaGalleries", new { sortOrder = ViewBag.TypeSortParm })</td>
+                      <td class="datacellfoursmall">
+                      @Html.ActionLink((string)ViewBag.Label4, "MediaGalleries", new { sortOrder = ViewBag.DateSortParm })</td>
+                      <td class="datacellfoursmall">@Html.Raw(ViewBag.Label5)</td>
+                      </tr>
+
+                      @foreach (var item in Model) {
+                        ++itemNo;
+if (item.isGallery) {
+                        gallNo = item.id;
+                        <tr>
+@if (item.count == 0) {
+                         <td class="datacellfoursmall">&nbsp;</td>
+} else {
+                         <td class="datacellfoursmall">
+                              <a id="OpenClose@gallNo" class="hoverhilite"
+                                  href="javascript:toggleDiv('rowset@gallNo','OpenClose@gallNo');"><b>+</b></a></td>
+}
+                         @{
+                             titleStr = "\"" + item.title + "\" - " + item.count + " " + item.type;
+                             if (item.count == 1)
+                             {
+                                 titleStr = titleStr.Substring(0, titleStr.Length - 1);
+                             }
+                         }
+                         <td class="datacelltwosmall_nobold"><a class="hoverhilite" 
+                               href="/Home/OpenGallery/@item.id"><b>@titleStr</b></a>
+                         </td>
+                         <td class="datacelltwosmall_nobold">@item.description
+                         </td>
+                         <td class="datacelltwosmall_nobold">@item.type
+                         </td>
+                         <td class="datacelltwosmall_nobold">@item.dateString
+                         </td>
+                         <td class="datacelltwosmall_nobold" align="center">@Html.CheckBox("Delete-" + item.id, false)
+                         </td>
+                        </tr>
+} else {
+                        <tr class="rowset@gallNo">
+                         <td class="datacellzerosmall_nobold">&nbsp;</td>
+                         <td class="datacellzerosmall_nobold">
+                         <a href="@item.path" target="_blank">@item.title</a>
+                         </td>
+                         <td class="datacellzerosmall_nobold">@item.description
+                         </td>
+                         <td class="datacellzerosmall_nobold">
+@if (item.type == "Mixed") {
+                         @Html.Raw("Unspecified")
+} else {
+                         @item.type
+}
+                         </td>
+                         <td class="datacellzerosmall_nobold">@item.dateString
+                         </td>
+                         <td class="datacellzerosmall_nobold" align="center">@Html.CheckBox("Delete--" + (item.id+1), false)
+                         </td>
+                        </tr>
+}
+                      }
+                      
+                      @if (itemNo == 0) {
+                        <tr>
+                        <td style="width:10px;">&nbsp;</td>
+                        <td style="width:100px;">&nbsp;</td>
+                        <td style="width:100px;">&nbsp;</td>
+                        <td style="width:100px;">&nbsp;</td>
+                        <td style="width:100px;">&nbsp;</td>
+                        <td style="width:50px;">&nbsp;</td>
+                        </tr>
+                      }
+
+                      </table>
+                      
+                      if (itemNo == 0) {
+                      <p style="color:#800080">
+                      <i><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You don't have any Galleries.</b></i>
+                      </p>
+                      }
+
+                      <p></p>
+                      <input type="submit" value="Create New Gallery" name="button" />
+                      <text>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</text>
+                      if (itemNo > 0) {
+                         <p></p>
+                         <input type="submit" value="Delete Selections" name="button" />
+                      }
+                      <p>&nbsp;</p>
+
+            } 
+            </div>
+
+        <footer>
+            <p>&copy; @DateTime.Now.Year - KSU Corner</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

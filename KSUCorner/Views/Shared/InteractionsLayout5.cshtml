@@ -1,0 +1,171 @@
+@model IEnumerable<KSUCorner.Models.Message>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - KSU Corner</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+            $(document).ready(function () {
+                var currentTab = window.location.pathname;
+                if (currentTab == null || currentTab.split("/").length < 3)
+                    currentTab = "Index";
+                else {
+                    currentTab = (currentTab.split("/"))[2];
+                    if (currentTab.length == 0)
+                        currentTab = "Index";
+                }
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/GetTabs/" + currentTab,
+                    success: function (response) {
+                        var off = response.indexOf(":");
+                        var head = "";
+                        var tabs = "";
+                        if (off == -1)
+                            tabs = response;
+                        else {
+                            head = response.substring(0, off);
+                            tabs = response.substring(off + 1);
+                        }
+                        $("#headcontainer").html(head);
+                        $("#menucontainer").html(tabs);
+                    },
+                    error: function (e) {
+                        alert("Error: " + e.responseText);
+                    }
+                });
+            });
+    </script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-image: url('/Images/background7.jpg')">
+        <div class="container">
+            <div class="navbar-header">
+                <div id="headcontainer">
+                </div>
+                <div id="menucontainer">
+                </div>
+                <div class="navbar-collapse collapse">
+                </div>
+            </div>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <p></p>
+            <div class="firstindent">
+
+                @using (Html.BeginForm("MultiAdminDeleteMessage", "Home"))
+                {
+                    int itemNo = 0;
+                    <table border="0" cellspacing="5" cellpadding="6">
+                        <tr>
+                            <td class="datacellfoursmall">
+                                @Html.ActionLink("Subject", "AdminMessaging", new { sortOrder = ViewBag.SubjectSortParm })
+                            </td>
+                            <td class="datacellfoursmall">
+                                @Html.ActionLink("Type", "AdminMessaging", new { sortOrder = ViewBag.TypeSortParm })
+                            </td>
+                            <td class="datacellfoursmall">
+                                @Html.ActionLink("Status", "AdminMessaging", new { sortOrder = ViewBag.StatusSortParm })
+                            </td>
+                            <td class="datacellfoursmall">
+                                @Html.ActionLink("Sent by", "AdminMessaging", new { sortOrder = ViewBag.SentBySortParm })
+                            </td>
+                            <td class="datacellfoursmall">
+                                @Html.ActionLink("Date", "AdminMessaging", new { sortOrder = ViewBag.DateSortParm })
+                            </td>
+                            <td class="datacellfoursmall">Remove</td>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="msglsitm">
+                                    @Html.ActionLink(item.Subject, "AdminOpenMessage", new { id = item.MessageID })
+                                </td>
+                                <td class="msglsitm">
+                                    @if (item.MessageType == "Urgent Message" ||
+                                        item.MessageType == "Abuse Report")
+                                    {
+                                        <span style="color:#C00000">@item.MessageType</span>
+                                    }
+                                    else
+                                    {
+                                        @item.MessageType
+                                    }
+                                </td>
+                                <td class="msglsitm">
+                                    @if (item.MessageStatus == "Unread")
+                                    {
+                                        <span style="color:#800080">@item.MessageStatus</span>
+                                    }
+                                    else
+                                    {
+                                        <span style="color:#008000">@item.MessageStatus</span>
+                                    }
+                                </td>
+                                <td class="msglsitm">
+                                    @item.SentBy
+                                </td>
+                                <td class="msglsitm">
+                                    @String.Format("{0:g}", item.CreateDate)
+                                </td>
+                                <td class="msglsitm" align="center">
+                                    @{
+                            int ival = ++itemNo;
+                            @Html.CheckBox("Delete-" + item.MessageID.ToString(), false)
+                                        <b>&nbsp;&nbsp;</b>@ival
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+                        @if (itemNo == 0)
+                        {
+                            <tr>
+                                <td style="width:100px;">&nbsp;</td>
+                                <td style="width:100px;">&nbsp;</td>
+                                <td style="width:100px;">&nbsp;</td>
+                                <td style="width:100px;">&nbsp;</td>
+                                <td style="width:100px;">&nbsp;</td>
+                                <td style="width:50px;">&nbsp;</td>
+                            </tr>
+                        }
+
+                    </table>
+
+                    if (itemNo == 0)
+                    {
+                        <p style="color:#800080">
+                            <i><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You don't have any messages.</b></i>
+                        </p>
+                    }
+                    <p></p>
+                    if (itemNo > 0)
+                    {
+                        <input type="submit" value="Delete Selections" name="button" />
+                    }
+                    <p>&nbsp;</p>
+                }
+            </div>
+
+        <footer>
+            <p>&copy; @DateTime.Now.Year - KSU Corner</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

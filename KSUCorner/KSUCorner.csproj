@@ -1,0 +1,950 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{968C6183-9B5B-441D-9F4B-8ED207CAF854}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>KSUCorner</RootNamespace>
+    <AssemblyName>KSUCorner</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.1.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.1.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.1.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.1.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.1.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.1.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Models\AccountListItem.cs" />
+    <Compile Include="Models\ForumReplyMetadata.cs" />
+    <Compile Include="Models\GroupMetadata.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Models\MediaFileMetadata.cs" />
+    <Compile Include="Models\MessageMetadata.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Account.cs">
+      <DependentUpon>CustomMembershipModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CustomMembershipModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomMembershipModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustomMembershipModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomMembershipModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustomMembershipModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CustomMembershipModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmailConfirmation.cs">
+      <DependentUpon>EmailConfirmationsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmailConfirmationsModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailConfirmationsModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmailConfirmationsModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailConfirmationsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EmailConfirmationsModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmailConfirmationsModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FileFolder.cs">
+      <DependentUpon>FileFoldersModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FileFolderMetadata.cs" />
+    <Compile Include="Models\FileFoldersModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FileFoldersModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FileFoldersModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FileFoldersModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FileFoldersModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FileFoldersModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Forum.cs">
+      <DependentUpon>ForumsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ForumCategoriesModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForumCategoriesModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ForumCategoriesModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForumCategoriesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ForumCategoriesModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForumCategoriesModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ForumCategory.cs">
+      <DependentUpon>ForumCategoriesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ForumCategoryMetadata.cs" />
+    <Compile Include="Models\ForumListItem.cs" />
+    <Compile Include="Models\ForumMetadata.cs" />
+    <Compile Include="Models\ForumRepliesModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForumRepliesModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ForumRepliesModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForumRepliesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ForumRepliesModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForumRepliesModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ForumReply.cs">
+      <DependentUpon>ForumRepliesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ForumsModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForumsModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ForumsModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForumsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ForumsModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ForumsModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Friend.cs">
+      <DependentUpon>FriendsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FriendsModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FriendsModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FriendsModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FriendsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FriendsModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FriendsModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GalleryListItem.cs" />
+    <Compile Include="Models\Group.cs">
+      <DependentUpon>GroupsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GroupMember.cs">
+      <DependentUpon>GroupMembersModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GroupMembersModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GroupMembersModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GroupMembersModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GroupMembersModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GroupMembersModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GroupMembersModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GroupsModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GroupsModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GroupsModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GroupsModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GroupsModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GroupsModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MediaFile.cs">
+      <DependentUpon>MediaFilesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MediaFilesModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MediaFilesModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MediaFilesModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MediaFilesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MediaFilesModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MediaFilesModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Message.cs">
+      <DependentUpon>MessagesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MessagesModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MessagesModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MessagesModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MessagesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MessagesModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MessagesModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Model1KSUCornerDBEntities12.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1KSUCornerDBEntities12.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Model1KSUCornerDBEntities12.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1KSUCornerDBEntities12.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Model1KSUCornerDBEntities12.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Model1KSUCornerDBEntities12.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Profile.cs">
+      <DependentUpon>ProfileModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProfileMetadata.cs" />
+    <Compile Include="Models\ProfileModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProfileModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProfileModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProfileModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProfileModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProfileModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RestrictedAccount.cs">
+      <DependentUpon>Model1KSUCornerDBEntities12.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\KSUCornerDB.mdf" />
+    <Content Include="App_Data\KSUCornerDB_log.ldf">
+      <DependentUpon>KSUCornerDB.mdf</DependentUpon>
+    </Content>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\License.txt" />
+    <Content Include="Content\Site.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\aboutus.jpg" />
+    <Content Include="Images\audiofile.jpg" />
+    <Content Include="Images\background7.jpg" />
+    <Content Include="Images\DefaultAvatar.jpg" />
+    <Content Include="Images\delete.jpg" />
+    <Content Include="Images\friends.jpg" />
+    <Content Include="Images\graylockclosed.png" />
+    <Content Include="Images\graylockopened.png" />
+    <Content Include="Images\invalidemail.jpg" />
+    <Content Include="Images\kennesawlogo.gif" />
+    <Content Include="Images\noaccess.jpg" />
+    <Content Include="Images\pleaselogin.jpg" />
+    <Content Include="Images\socialnetwork.jpg" />
+    <Content Include="Images\unknownfiletype.jpg" />
+    <Content Include="Images\validemail.jpg" />
+    <Content Include="Images\videofile.jpg" />
+    <Content Include="Models\CustomMembershipModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CustomMembershipModel.edmx</DependentUpon>
+      <LastGenOutput>CustomMembershipModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\CustomMembershipModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CustomMembershipModel.edmx</DependentUpon>
+      <LastGenOutput>CustomMembershipModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EmailConfirmationsModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EmailConfirmationsModel.edmx</DependentUpon>
+      <LastGenOutput>EmailConfirmationsModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EmailConfirmationsModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EmailConfirmationsModel.edmx</DependentUpon>
+      <LastGenOutput>EmailConfirmationsModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\FileFoldersModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FileFoldersModel.edmx</DependentUpon>
+      <LastGenOutput>FileFoldersModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\FileFoldersModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FileFoldersModel.edmx</DependentUpon>
+      <LastGenOutput>FileFoldersModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ForumCategoriesModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ForumCategoriesModel.edmx</DependentUpon>
+      <LastGenOutput>ForumCategoriesModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ForumCategoriesModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ForumCategoriesModel.edmx</DependentUpon>
+      <LastGenOutput>ForumCategoriesModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ForumRepliesModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ForumRepliesModel.edmx</DependentUpon>
+      <LastGenOutput>ForumRepliesModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ForumRepliesModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ForumRepliesModel.edmx</DependentUpon>
+      <LastGenOutput>ForumRepliesModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ForumsModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ForumsModel.edmx</DependentUpon>
+      <LastGenOutput>ForumsModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ForumsModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ForumsModel.edmx</DependentUpon>
+      <LastGenOutput>ForumsModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\FriendsModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FriendsModel.edmx</DependentUpon>
+      <LastGenOutput>FriendsModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\FriendsModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FriendsModel.edmx</DependentUpon>
+      <LastGenOutput>FriendsModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\GroupMembersModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GroupMembersModel.edmx</DependentUpon>
+      <LastGenOutput>GroupMembersModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\GroupMembersModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GroupMembersModel.edmx</DependentUpon>
+      <LastGenOutput>GroupMembersModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\GroupsModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GroupsModel.edmx</DependentUpon>
+      <LastGenOutput>GroupsModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\GroupsModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GroupsModel.edmx</DependentUpon>
+      <LastGenOutput>GroupsModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\MediaFilesModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MediaFilesModel.edmx</DependentUpon>
+      <LastGenOutput>MediaFilesModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\MediaFilesModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MediaFilesModel.edmx</DependentUpon>
+      <LastGenOutput>MediaFilesModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\MessagesModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MessagesModel.edmx</DependentUpon>
+      <LastGenOutput>MessagesModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\MessagesModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>MessagesModel.edmx</DependentUpon>
+      <LastGenOutput>MessagesModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Model1KSUCornerDBEntities12.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1KSUCornerDBEntities12.edmx</DependentUpon>
+      <LastGenOutput>Model1KSUCornerDBEntities12.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\Model1KSUCornerDBEntities12.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Model1KSUCornerDBEntities12.edmx</DependentUpon>
+      <LastGenOutput>Model1KSUCornerDBEntities12.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ProfileModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ProfileModel.edmx</DependentUpon>
+      <LastGenOutput>ProfileModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\ProfileModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ProfileModel.edmx</DependentUpon>
+      <LastGenOutput>ProfileModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\ai.0.22.19-build00125.js" />
+    <Content Include="Scripts\ai.0.22.19-build00125.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <EntityDeploy Include="Models\EmailConfirmationsModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EmailConfirmationsModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\EmailConfirmationsModel.edmx.diagram">
+      <DependentUpon>EmailConfirmationsModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\CustomMembershipModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CustomMembershipModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\CustomMembershipModel.edmx.diagram">
+      <DependentUpon>CustomMembershipModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\ProfileModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ProfileModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ProfileModel.edmx.diagram">
+      <DependentUpon>ProfileModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\MessagesModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MessagesModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\MessagesModel.edmx.diagram">
+      <DependentUpon>MessagesModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\FriendsModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>FriendsModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\FriendsModel.edmx.diagram">
+      <DependentUpon>FriendsModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\FileFoldersModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>FileFoldersModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\FileFoldersModel.edmx.diagram">
+      <DependentUpon>FileFoldersModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\MediaFilesModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>MediaFilesModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\MediaFilesModel.edmx.diagram">
+      <DependentUpon>MediaFilesModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\GroupsModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GroupsModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\GroupsModel.edmx.diagram">
+      <DependentUpon>GroupsModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\GroupMembersModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GroupMembersModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\GroupMembersModel.edmx.diagram">
+      <DependentUpon>GroupMembersModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\ForumCategoriesModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ForumCategoriesModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ForumCategoriesModel.edmx.diagram">
+      <DependentUpon>ForumCategoriesModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\ForumsModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ForumsModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ForumsModel.edmx.diagram">
+      <DependentUpon>ForumsModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\ForumRepliesModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ForumRepliesModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\ForumRepliesModel.edmx.diagram">
+      <DependentUpon>ForumRepliesModel.edmx</DependentUpon>
+    </Content>
+    <EntityDeploy Include="Models\Model1KSUCornerDBEntities12.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model1KSUCornerDBEntities12.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\Model1KSUCornerDBEntities12.edmx.diagram">
+      <DependentUpon>Model1KSUCornerDBEntities12.edmx</DependentUpon>
+    </Content>
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\AllTabPageLayout.cshtml" />
+    <Content Include="Views\Shared\BlogsLayout1.cshtml" />
+    <Content Include="Views\Shared\BlogsLayout2.cshtml" />
+    <Content Include="Views\Shared\BlogsLayout3.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\ForumsLayout1.cshtml" />
+    <Content Include="Views\Shared\ForumsLayout2.cshtml" />
+    <Content Include="Views\Shared\ForumsLayout3.cshtml" />
+    <Content Include="Views\Shared\ForumsLayout4.cshtml" />
+    <Content Include="Views\Shared\ForumsLayout5.cshtml" />
+    <Content Include="Views\Shared\ForumsLayout6.cshtml" />
+    <Content Include="Views\Shared\FriendsLayout1.cshtml" />
+    <Content Include="Views\Shared\GroupsLayout1.cshtml" />
+    <Content Include="Views\Shared\GroupsLayout2.cshtml" />
+    <Content Include="Views\Shared\GroupsLayout3.cshtml" />
+    <Content Include="Views\Shared\HomepageLayout.cshtml" />
+    <Content Include="Views\Shared\InfoBoxLayout1.cshtml" />
+    <Content Include="Views\Shared\InvitationLayout1.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\MediaGalleryLayout1.cshtml" />
+    <Content Include="Views\Shared\MediaGalleryLayout2.cshtml" />
+    <Content Include="Views\Shared\MediaGalleryLayout3.cshtml" />
+    <Content Include="Views\Shared\MediaGalleryLayout4.cshtml" />
+    <Content Include="Views\Shared\MessagesLayout1.cshtml" />
+    <Content Include="Views\Shared\MessagesLayout3.cshtml" />
+    <Content Include="Views\Shared\ProfileLayout2.cshtml" />
+    <Content Include="Views\Shared\RequestMembershipLayout1.cshtml" />
+    <Content Include="Views\Shared\SearchLayout1.cshtml" />
+    <Content Include="Views\Shared\TwoTabPageLayout.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\AcceptInvitation.cshtml" />
+    <Content Include="Views\Home\AcceptMembershipRequest.cshtml" />
+    <Content Include="Views\Home\AlreadyFriends.cshtml" />
+    <Content Include="Views\Home\BadAccount.cshtml" />
+    <Content Include="Views\Home\BlogErrorMessage.cshtml" />
+    <Content Include="Views\Home\Blogging.cshtml" />
+    <Content Include="Views\Home\DeleteBlog.cshtml" />
+    <Content Include="Views\Home\DeleteError.cshtml" />
+    <Content Include="Views\Home\DeleteForum.cshtml" />
+    <Content Include="Views\Home\DeleteForumCategory.cshtml" />
+    <Content Include="Views\Home\DeleteGroup.cshtml" />
+    <Content Include="Views\Home\DeleteMediaFile.cshtml" />
+    <Content Include="Views\Home\DeleteMessage.cshtml" />
+    <Content Include="Views\Home\DeleteObjectError.cshtml" />
+    <Content Include="Views\Home\DeleteReply.cshtml" />
+    <Content Include="Views\Home\EditBlog.cshtml" />
+    <Content Include="Views\Home\EditForum.cshtml" />
+    <Content Include="Views\Home\EditForumCategory.cshtml" />
+    <Content Include="Views\Home\EditGallery.cshtml" />
+    <Content Include="Views\Home\EditGroup.cshtml" />
+    <Content Include="Views\Home\EditMediaFile.cshtml" />
+    <Content Include="Views\Home\EditProfile.cshtml" />
+    <Content Include="Views\Home\EditReply.cshtml" />
+    <Content Include="Views\Home\ErrorMessage.cshtml" />
+    <Content Include="Views\Home\FileDetails.cshtml" />
+    <Content Include="Views\Home\ForumErrorMessage.cshtml" />
+    <Content Include="Views\Home\Forums.cshtml" />
+    <Content Include="Views\Home\Friends.cshtml" />
+    <Content Include="Views\Home\GalleryLoadError.cshtml" />
+    <Content Include="Views\Home\GroupErrorMessage.cshtml" />
+    <Content Include="Views\Home\GroupForum.cshtml" />
+    <Content Include="Views\Home\GroupGallery.cshtml" />
+    <Content Include="Views\Home\GroupLoadError.cshtml" />
+    <Content Include="Views\Home\GroupLoadPermissionError.cshtml" />
+    <Content Include="Views\Home\GroupMission.cshtml" />
+    <Content Include="Views\Home\Groups.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\InvitationSent.cshtml" />
+    <Content Include="Views\Home\InviteFriend.cshtml" />
+    <Content Include="Views\Home\LoginOrRegister.cshtml" />
+    <Content Include="Views\Home\LogOff.cshtml" />
+    <Content Include="Views\Home\MediaFileLoadError.cshtml" />
+    <Content Include="Views\Home\MediaGalleries.cshtml" />
+    <Content Include="Views\Home\MembershipRequest.cshtml" />
+    <Content Include="Views\Home\MembershipRequestSent.cshtml" />
+    <Content Include="Views\Home\MessageError.cshtml" />
+    <Content Include="Views\Home\Messaging.cshtml" />
+    <Content Include="Views\Home\NewBlog.cshtml" />
+    <Content Include="Views\Home\NewForum.cshtml" />
+    <Content Include="Views\Home\NewForumCategory.cshtml" />
+    <Content Include="Views\Home\NewGallery.cshtml" />
+    <Content Include="Views\Home\NewGroup.cshtml" />
+    <Content Include="Views\Home\NewMediaFile.cshtml" />
+    <Content Include="Views\Home\NewMessage.cshtml" />
+    <Content Include="Views\Home\NewReply.cshtml" />
+    <Content Include="Views\Home\NoToSelf.cshtml" />
+    <Content Include="Views\Home\OpenForum.cshtml" />
+    <Content Include="Views\Home\OpenForumCategory.cshtml" />
+    <Content Include="Views\Home\OpenGallery.cshtml" />
+    <Content Include="Views\Home\OpenMessage.cshtml" />
+    <Content Include="Views\Home\OpenPrivateBlog.cshtml" />
+    <Content Include="Views\Home\OpenPublishedBlog.cshtml" />
+    <Content Include="Views\Home\PrivateBlogs.cshtml" />
+    <Content Include="Views\Home\Profile.cshtml" />
+    <Content Include="Views\Home\PublishedBlogs.cshtml" />
+    <Content Include="Views\Home\RemoveFriend.cshtml" />
+    <Content Include="Views\Home\ReplyMessage.cshtml" />
+    <Content Include="Views\Home\RmvFriendError.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Home\SendAuthenticationEmail.cshtml" />
+    <Content Include="Views\Home\SetConfirmed.cshtml" />
+    <Content Include="Views\Home\StillNeedConfirmation.cshtml" />
+    <Content Include="Views\Shared\InteractionsLayout1.cshtml" />
+    <Content Include="Views\Shared\InteractionsLayout3.cshtml" />
+    <Content Include="Views\Shared\InteractionsLayout4.cshtml" />
+    <Content Include="Views\Shared\InteractionsLayout5.cshtml" />
+    <Content Include="Views\Shared\InteractionsLayout6.cshtml" />
+    <Content Include="Views\Shared\InteractionsLayout7.cshtml" />
+    <Content Include="Views\Shared\InteractionsLayout2.cshtml" />
+    <Content Include="Views\Shared\MessagesLayout2.cshtml" />
+    <Content Include="Views\Shared\ProfileLayout1.cshtml" />
+    <Content Include="Views\Shared\RecoveryLayout.cshtml" />
+    <Content Include="Views\Shared\TermsOfUseLayout.cshtml" />
+    <Content Include="Views\Home\PasswordRecovery.cshtml" />
+    <Content Include="Views\Home\RecoveryQuestion.cshtml" />
+    <Content Include="Views\Home\PasswordRecoveryFailed.cshtml" />
+    <Content Include="Views\Home\PasswordRecoverySucceeded.cshtml" />
+    <Content Include="Views\Home\TermsOfUse.cshtml" />
+    <Content Include="Views\Shared\AdminLayout1.cshtml" />
+    <Content Include="Views\Shared\AdminLayout2.cshtml" />
+    <Content Include="Views\Shared\AdminLayout3.cshtml" />
+    <Content Include="Views\Shared\AdminLayout4.cshtml" />
+    <Content Include="Views\Shared\AdminLayout5.cshtml" />
+    <Content Include="Views\Shared\AdminLayout6.cshtml" />
+    <Content Include="Views\Shared\AdminLayout7.cshtml" />
+    <Content Include="Views\Home\Admin.cshtml" />
+    <Content Include="Views\Home\ActivateAccount.cshtml" />
+    <Content Include="Views\Home\DeactivateAccount.cshtml" />
+    <Content Include="Views\Home\LockOutAccount.cshtml" />
+    <Content Include="Views\Home\UnLockOutAccount.cshtml" />
+    <Content Include="Views\Home\RestrictAccount.cshtml" />
+    <Content Include="Views\Home\AdminErrorMessage.cshtml" />
+    <Content Include="Views\Home\AdminMessage.cshtml" />
+    <Content Include="Views\Home\AdminMessaging.cshtml" />
+    <Content Include="Views\Home\AdminReplyMessage.cshtml" />
+    <Content Include="Views\Home\AdminOpenMessage.cshtml" />
+    <Content Include="Views\Home\AdminDeleteMessage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\uploads\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>2491</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:2491/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

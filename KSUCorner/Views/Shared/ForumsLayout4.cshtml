@@ -1,0 +1,236 @@
+@model IEnumerable<KSUCorner.Models.ForumListItem>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - KSU Corner</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var currentTab = window.location.pathname;
+                if (currentTab == null || currentTab.split("/").length < 3)
+                    currentTab = "Index";
+                else {
+                    currentTab = (currentTab.split("/"))[2];
+                    if (currentTab.length == 0)
+                        currentTab = "Index";
+                }
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/GetTabs/" + currentTab,
+                    success: function (response) {
+                        var off = response.indexOf(":");
+                        var head = "";
+                        var tabs = "";
+                        if (off == -1)
+                            tabs = response;
+                        else {
+                            head = response.substring(0, off);
+                            tabs = response.substring(off + 1);
+                        }
+                        $("#headcontainer").html(head);
+                        $("#menucontainer").html(tabs);
+                    },
+                    error: function (e) {
+                        alert("Error: " + e.responseText);
+                    }
+                });
+            });
+        </script>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                td = document.getElementsByTagName('tr');
+                for (var i = 0; i < td.length; i++) {
+                    if (td[i].className.substring(0, 6) == 'rowset')
+                        if (!td[i].style.display)
+                            td[i].style.display = 'none';
+                        else
+                            td[i].style.display = '';
+                }
+            });
+
+            function toggleDiv(divId, divTag) {
+                var elem = $("." + divId)[0];
+                if (elem.style.display == 'none') {
+                    $("." + divId).show();
+                    $("#" + divTag).html('-');
+                } else {
+                    $("." + divId).hide();
+                    $("#" + divTag).html('+');
+                }
+            }
+        </script>
+        <style type="text/css">
+            a.hoverhilite:link
+            {
+            	color:#000060;
+            	text-decoration: none;
+            }
+            a.hoverhilite:visited
+            {
+            	color:#000060;
+            	text-decoration: none;
+            }
+            a.hoverhilite:hover
+            {
+            	color:#800000;
+            	text-decoration: none;
+            }
+            a.hoverhilite:active
+            {
+            	color:#000060;
+            	text-decoration: none;
+            }
+        </style>
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-image: url('/Images/background7.jpg')">
+        <div class="container">
+            <div class="navbar-header">
+                <div id="headcontainer">
+                </div>
+                <div id="menucontainer">
+                </div>
+                <div class="navbar-collapse collapse">
+                </div>
+            </div>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <p></p>
+
+            <div class="firstindent">
+
+              @{
+                  int itemNo = 0;
+                  int catNo = 0;
+                  <table border="0" cellspacing="5" cellpadding="6">
+                      <tr>
+                      <td class="datacellfoursmall">&nbsp;</td>
+                      <td class="datacellfoursmall">
+                      @Html.ActionLink((string)ViewBag.Label1, "Forums", new { sortOrder = ViewBag.NameSortParm })</td>
+                      <td class="datacellfoursmall">
+                      @Html.ActionLink((string)ViewBag.Label2, "Forums", new { sortOrder = ViewBag.DescriptionSortParm })</td>
+                      <td class="datacellfoursmall">
+                      @Html.ActionLink((string)ViewBag.Label3, "Forums", new { sortOrder = ViewBag.ReplySortParm })</td>
+                      <td class="datacellfoursmall">
+                      @Html.ActionLink((string)ViewBag.Label4, "Forums", new { sortOrder = ViewBag.CreatedBySortParm })</td>
+                      <td class="datacellfoursmall">
+                      @Html.ActionLink((string)ViewBag.Label5, "Forums", new { sortOrder = ViewBag.DateSortParm })</td>
+                      <td class="datacellfoursmall">
+                      @Html.ActionLink((string)ViewBag.Label6, "Forums", new { sortOrder = ViewBag.LastPostSortParm })</td>
+                      </tr>
+
+                      @foreach (var item in Model)
+                      {
+                          ++itemNo;
+                          if (item.isMain)
+                          {
+                              catNo = item.id;
+                        <tr>
+@if (item.count == 0)
+{
+                         <td class="datacellfoursmall">&nbsp;</td>
+}
+else
+{
+                         <td class="datacellfoursmall">
+                              <a id="OpenClose@catNo" class="hoverhilite"
+                                  href="javascript:toggleDiv('rowset@catNo','OpenClose@catNo');"><b>+</b></a></td>
+}
+@{
+string titleStr = "\"" + item.title + "\" - " + item.count + " Forums";
+                         if (item.count == 1)
+                         {
+                             titleStr = titleStr.Substring(0, titleStr.Length - 1);
+                         }
+                         <td class="datacelltwosmall_nobold"><a class="hoverhilite" href="/Home/OpenForumCategory/@item.id"><b>@titleStr</b></a>
+                         </td>
+}
+                         <td class="datacelltwosmall_nobold">@item.description</td>
+                         <td class="datacelltwosmall_nobold">@item.count2</td>
+                         <td class="datacelltwosmall_nobold">@item.createdBy</td>
+                         <td class="datacelltwosmall_nobold">@item.createdOn</td>
+                         
+                         <td class="datacelltwosmall_nobold">
+                         @{
+                             DateTime past = Convert.ToDateTime("1/1/1970");
+                             string neverStr = "Never";
+                             if (item.lastPost.CompareTo(past) > 0)
+                             {
+                                 @item.lastPost
+                             }
+                             else
+                             {
+                                 @neverStr
+                             }
+
+                         }
+                         </td>
+                        </tr>
+} else {
+                        <tr class="rowset@catNo">
+                         <td class="datacellzerosmall_nobold">&nbsp;</td>
+                         <td class="datacellzerosmall_nobold">
+                         <a href="/Home/OpenForum/@item.id">@item.title</a>
+                         </td>
+                         <td class="datacellzerosmall_nobold">@item.description</td>
+                         <td class="datacellzerosmall_nobold">@item.count2</td>
+                         <td class="datacellzerosmall_nobold">@item.createdBy</td>
+                         <td class="datacellzerosmall_nobold">@item.createdOn</td>
+                         <td class="datacellzerosmall_nobold">&nbsp;</td>
+                        </tr>
+}
+                      }
+                      
+                      @if (itemNo == 0) {
+                        <tr>
+                        <td style="width:10px;">&nbsp;</td>
+                        <td style="width:250px;">&nbsp;</td>
+                        <td style="width:250px;">&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        </tr>
+                      }
+
+                  </table>
+                      
+                  if (itemNo == 0) {
+                  <p style="color:#800080">
+                  <i><b>There are no Forums yet.</b></i>
+                  </p>
+                  }
+               }
+
+                  <p></p>
+                  <button type="button" onclick="window.location='/Home/NewForumCategory'">Create New Forum Category</button>
+
+                  <p>&nbsp;</p>
+
+            </div>
+        <footer>
+            <p>&copy; @DateTime.Now.Year - KSU Corner</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+

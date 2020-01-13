@@ -1,0 +1,187 @@
+@model IEnumerable<KSUCorner.Models.Group>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - KSU Corner</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var currentTab = window.location.pathname;
+            if (currentTab == null || currentTab.split("/").length < 3)
+                currentTab = "Index";
+            else {
+                currentTab = (currentTab.split("/"))[2];
+                if (currentTab.length == 0)
+                    currentTab = "Index";
+            }
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetTabs/" + currentTab,
+                success: function (response) {
+                    var off = response.indexOf(":");
+                    var head = "";
+                    var tabs = "";
+                    if (off == -1)
+                        tabs = response;
+                    else {
+                        head = response.substring(0, off);
+                        tabs = response.substring(off + 1);
+                    }
+                    $("#headcontainer").html(head);
+                    $("#menucontainer").html(tabs);
+                },
+                error: function (e) {
+                    alert("Error: " + e.responseText);
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-image: url('/Images/background7.jpg')">
+        <div class="container">
+            <div class="navbar-header">
+                <div id="headcontainer">
+                </div>
+                <div id="menucontainer">
+                </div>
+                <div class="navbar-collapse collapse">
+                </div>
+            </div>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <p></p>
+
+            <div class="firstindent">
+
+              @{
+                  int itemNo = 0;
+                <table cellspacing="5" cellpadding="5" width="800">
+                    <tr>
+                        <td class="datacellfour" colspan="3">
+                            <table cellspacing="0" cellpadding="0" width="790" style="margin-top:0; margin-left:0; border:none;">
+                                <tr style="padding: 0 0 0 0">
+                                    <td style="padding: 0 0 0 0; border:none;">
+                                        <b>@Html.Raw(ViewBag.Label1)</b>&nbsp;&nbsp;&nbsp;
+                                        @Html.ActionLink((string)ViewBag.Label2, "Groups", new { sortOrder = ViewBag.NameSortParm }) |
+                                        @Html.ActionLink((string)ViewBag.Label3, "Groups", new { sortOrder = ViewBag.DateSortParm })
+                                    </td>
+                                    <td width="100" align="right" style="padding: 0 0 0 0; border:none;">
+                                        @Html.ActionLink((string)ViewBag.Label4, "NewGroup")
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    @foreach (var item in Model)
+                    {
+                        ++itemNo;
+                        if (itemNo % 3 == 1)
+                        {
+                            string trStr = "<tr>";
+                            @Html.Raw(trStr);
+                        }
+                                <td class="datacellzerosmall_nobold" align="left" valign="top" style="border:none;">
+                                    &nbsp;<br /><b>@item.Name:</b><p></p>
+                                    <center>
+                                        @{
+                            string locstr = "";
+                            string dimStr = "";
+                            if (!item.IsPublic || item.ImageLinkType == "Mission")
+                            {
+                                locstr = "GroupMission/" + @item.GroupID;
+                            }
+                            else if (item.ImageLinkType == "Forum")
+                            {
+                                locstr = "GroupForum/" + @item.GroupID;
+                            }
+                            else
+                            {
+                                locstr = "GroupGallery/" + @item.GroupID;
+                            }
+                            if (item.Width < 60 || item.Width > 230)
+                            {
+                                dimStr = " width=\"200\" ";
+                            }
+                            if ((item.Height > 2 * item.Width && item.Width > 230) ||
+                                        (item.Height > 400 && item.Width <= 230))
+                            {
+                                dimStr += "height=\"400\" ";
+                            }
+                            <a href="/Home/@locstr">
+                                <img src="@item.ImagePath" style="border-style: none;"
+                                     alt="@item.Name" @Html.Raw(dimStr) />
+                            </a>
+                                        }
+                                        <p></p>
+                                        @if (item.IsPublic) {
+                                            string barStr = "|";
+                                            @Html.ActionLink("Forum", "GroupForum", new { id = item.GroupID })
+                                            @barStr;
+                                            @Html.ActionLink("Gallery", "GroupGallery", new { id = item.GroupID })
+                                            @barStr;
+                                        }
+                                        @Html.ActionLink("Mission", "GroupMission", new { id = item.GroupID })
+                                    </center>
+                                </td>
+                        if (itemNo % 3 == 0) {
+                            string trStr = "</tr>";
+                            @Html.Raw(trStr);
+                        }
+                    }
+
+                    @if (itemNo == 0)
+                    {
+                        <tr>
+                            <td style="width:600px; border:none;" colspan="3">&nbsp;</td>
+                        </tr>
+                    }
+                    else if (itemNo % 3 == 1)
+                    {
+                        string trStr = "</tr>";
+                        <td style="width:400px; border:none;" colspan="2">&nbsp;</td>
+                        @Html.Raw(trStr);
+                    }
+                    else if (itemNo % 3 == 2)
+                    {
+                        string trStr = "</tr>";
+                        <td style="width:200px; border:none;">&nbsp;</td>
+                        @Html.Raw(trStr);
+                    }
+
+                </table>
+
+                  if (itemNo == 0)
+                  {
+                 <p style="color:#800080">
+                 <i><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There are no Groups yet.</b></i>
+                 </p>
+                 }
+            }
+
+            </div>
+        <footer>
+            <p>&copy; @DateTime.Now.Year - KSU Corner</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+

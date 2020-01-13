@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - KSU Corner</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+           
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-image: url('/Images/background7.jpg')">
+        <div class="container">
+            <div class="navbar-header">
+                <div id="headcontainer">
+                    <h1 style="color: white;"><b>KSU Corner</b></h1>
+                </div>
+                <div id="menucontainer">
+                    <ul id="menu">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                    </ul>
+                </div>
+                <div class="navbar-collapse collapse">
+                </div>
+            </div>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <p>
+            @Html.Raw(ViewBag.Message2)
+        </p>
+        <p>
+            @Html.Raw(ViewBag.Message3)
+        </p>
+
+        <hr />
+        <footer style="background-image: url('/Images/kennesawlogo.gif'); background-size: 300px 75px; background-position: center top; background-repeat: no-repeat;">
+            <p><h2>&copy; @DateTime.Now.Year - KSU Corner</h2></p>
+        </footer>
+    </div>
+
+</body>
+</html>

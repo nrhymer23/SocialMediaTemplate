@@ -1,0 +1,208 @@
+@model IEnumerable<KSUCorner.Models.GalleryListItem>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - KSU Corner</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var currentTab = window.location.pathname;
+            if (currentTab == null || currentTab.split("/").length < 3)
+                currentTab = "Index";
+            else {
+                currentTab = (currentTab.split("/"))[2];
+                if (currentTab.length == 0)
+                    currentTab = "Index";
+            }
+            $.ajax({
+                type: "GET",
+                url: "/Home/GetTabs/" + currentTab,
+                success: function (response) {
+                    var off = response.indexOf(":");
+                    var head = "";
+                    var tabs = "";
+                    if (off == -1)
+                        tabs = response;
+                    else {
+                        head = response.substring(0, off);
+                        tabs = response.substring(off + 1);
+                    }
+                    $("#headcontainer").html(head);
+                    $("#menucontainer").html(tabs);
+                },
+                error: function (e) {
+                    alert("Error: " + e.responseText);
+                }
+            });
+
+            td = document.getElementsByTagName('tr');
+            for (var i = 0; i < td.length; i++) {
+                if (td[i].className.substring(0, 6) == 'rowset')
+                    if (!td[i].style.display)
+                        td[i].style.display = 'none';
+                    else
+                        td[i].style.display = '';
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-image: url('/Images/background7.jpg')">
+        <div class="container">
+            <div class="navbar-header">
+                <div id="headcontainer">
+                </div>
+                <div id="menucontainer">
+                </div>
+                <div class="navbar-collapse collapse">
+                </div>
+            </div>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <p></p>
+
+            <div class="firstindent">
+
+              @{
+                  int itemNo = -1;
+                  bool isGroup = false;
+                <table border="0" cellspacing="5" cellpadding="6">
+                   @foreach (var item in Model) {
+                      ++itemNo;
+if (itemNo == 0) {
+                      <tr>
+                      <td class="datacellfour" colspan="3">
+                         <span class="alignleft">@item.title:</span>
+   @if (item.isGallery) {
+                         <span class="alignrightsmall">@Html.ActionLink("Edit Gallery", "EditGallery", new { item.id }) |
+                         @Html.ActionLink("Add New Item", "NewMediaFile", new { item.id })</span>
+   } else {
+                         <span class="alignrightsmall">@Html.ActionLink("Edit Group", "EditGroup", new { item.id }) |
+                         @Html.ActionLink("Add New Item", "NewMediaFile", new { id = -(item.id+1) })</span>
+                   isGroup = true;
+   }
+                      </td>
+                      </tr>
+                      <tr>
+                      <td colspan="3">
+                      <table border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                      <td>@Html.Raw(ViewBag.Label2):</td>
+                      <td>@item.description</td>
+                      </tr>
+                      <tr>
+                      <td>@Html.Raw(ViewBag.Label4):</td>
+                      <td>@item.dateString</td>
+                      </tr>
+   @if (item.isGallery) {
+                      <tr>
+                      <td>@Html.Raw(ViewBag.Label3):</td>
+                      <td>@item.type</td>
+                      </tr>
+   }
+                      </table>
+                      </td>
+                      </tr>
+} else {
+   string trstr1 = (itemNo % 3 == 1) ? "<tr>" : "";
+   string trstr2 = (itemNo % 3 == 1) ? "</tr>" : "";
+   if (itemNo % 3 == 1) {
+       @Html.Raw(trstr1)
+   }
+                      <td class="datacellzerosmall_nobold" align="left" valign="top">&nbsp;<br /><b>@item.title:</b><p></p>
+                      <center>
+   @if (item.type == "Image") {
+                     string dimStr = "";
+                     if (item.width < 60 || item.width > 230)
+                     {
+                         dimStr = " width=\"200\" ";
+                     }
+                     if ((item.height > 2 * item.height && item.height > 230) ||
+                             (item.height > 400 && item.height <= 230))
+                     {
+                         dimStr += "height=\"400\" ";
+                     }
+                    <a href="@item.path" target="_blank">
+                      <img src="@item.path"
+                           style="border-style: none;" alt="@item.description" @Html.Raw(dimStr) />
+                      </a>
+   } else if (item.type == "Audio") {
+                      <a href="@item.path" target="_blank"><img src="/Images/audiofile.jpg" 
+                                style="border-style: none;" width="150" alt="Audio File" />
+                      <br />Click To Open Audio File</a>
+   } else if (item.type == "Video") {
+                      <a href="@item.path" target="_blank"><img src="/Images/videofile.jpg"
+                                style="border-style: none;" width="150" alt="Video File" />
+                      <br />Click To Open Video</a>
+   } else {
+                      <a href="@item.path" target="_blank"><img src="/Images/unknownfiletype.jpg"
+                                style="border-style: none;" width="150" alt="Unknown File Type" />
+                      <br />Click To Open File</a>
+   }
+                      <p></p>
+                      @Html.ActionLink("Details", "FileDetails", new { item.id },
+                             new { onclick = "msgWindow=window.open('','moredetails','width=620,height=400,resizable=yes,scrollbars=yes,menubar=yes')",  
+                                   target = "moredetails" }) |
+                      @Html.ActionLink("Edit", "EditMediaFile", new { item.id }) |
+                      @Html.ActionLink("Delete", "DeleteMediaFile", new { item.id })
+                      </center>
+                      </td>
+   if (itemNo % 3 == 0) {
+        @Html.Raw(trstr2)
+   }
+}
+                   }
+                      
+                      @if (itemNo == 0) {
+                        <tr>
+                        <td style="width:600px;" colspan="3">&nbsp;</td>
+                        </tr>
+                      } else if (itemNo > 0 && itemNo % 3 == 1) {
+                        <tr>
+                        <td style="width:300px;" colspan="2">&nbsp;</td>
+                        </tr>
+                      } else if (itemNo > 0 && itemNo % 3 == 2) {
+                        <tr>
+                        <td style="width:150px;">&nbsp;</td>
+                        </tr>
+                      }
+
+                </table>
+                      
+                if (itemNo == 0) {
+                   <p style="color:#800080">
+@if (isGroup) {
+                   <i><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This Group does not have any files in its Gallery.</b></i>
+} else {
+                   <i><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You don't have any files in this Gallery.</b></i>
+}
+                   </p>
+              }
+
+            } 
+            </div>
+
+        <footer>
+            <p>&copy; @DateTime.Now.Year - KSU Corner</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+

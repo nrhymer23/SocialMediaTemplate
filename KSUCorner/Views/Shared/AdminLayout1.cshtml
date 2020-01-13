@@ -1,0 +1,178 @@
+@model IEnumerable<KSUCorner.Models.AccountListItem>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - KSU Corner</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+            $(document).ready(function () {
+                var currentTab = window.location.pathname;
+                if (currentTab == null || currentTab.split("/").length < 3)
+                    currentTab = "Index";
+                else {
+                    currentTab = (currentTab.split("/"))[2];
+                    if (currentTab.length == 0)
+                        currentTab = "Index";
+                }
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/GetTabs/" + currentTab,
+                    success: function (response) {
+                        var off = response.indexOf(":");
+                        var head = "";
+                        var tabs = "";
+                        if (off == -1)
+                            tabs = response;
+                        else {
+                            head = response.substring(0, off);
+                            tabs = response.substring(off + 1);
+                        }
+                        $("#headcontainer").html(head);
+                        $("#menucontainer").html(tabs);
+                    },
+                    error: function (e) {
+                        alert("Error: " + e.responseText);
+                    }
+                });
+            });
+    </script>
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-image: url('/Images/background7.jpg')">
+        <div class="container">
+            <div class="navbar-header">
+                <div id="headcontainer">
+                </div>
+                <div id="menucontainer">
+                </div>
+                <div class="navbar-collapse collapse">
+                </div>
+            </div>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+        <p></p>
+            <div class="firstindent">
+
+                    @Html.Raw(ViewBag.Message2)
+                    @{
+                        int itemNo = 0;
+                        <table cellspacing="2" cellpadding="2">
+                            <tr>
+                                <td class="datacellfoursmall" align="center" style="padding: 2px;">
+                                    @Html.ActionLink((string)ViewBag.Label1, "Interactions", new { sortOrder = ViewBag.IDSortParm })
+                                </td>
+                                <td class="datacellfoursmall" align="center" style="padding: 2px;">
+                                    @Html.ActionLink((string)ViewBag.Label2, "Interactions", new { sortOrder = ViewBag.UserNameSortParm })
+                                </td>
+                                <td class="datacellfoursmall" align="center" style="padding: 2px;">
+                                    @Html.ActionLink((string)ViewBag.Label3, "Interactions", new { sortOrder = ViewBag.InfoSortParm })
+                                </td>
+                                <td class="datacellfoursmall" align="center" style="padding: 2px;">
+                                    @Html.ActionLink((string)ViewBag.Label4, "Interactions", new { sortOrder = ViewBag.ActivatedSortParm })
+                                </td>
+                                <td class="datacellfoursmall" align="center" style="padding: 2px;">
+                                    @Html.ActionLink((string)ViewBag.Label5, "Interactions", new { sortOrder = ViewBag.LockedOutSortParm })
+                                </td>
+                                <td class="datacellfoursmall" align="center" style="padding: 2px;">
+                                    @Html.ActionLink((string)ViewBag.Label6, "Interactions", new { sortOrder = ViewBag.LockedOutDateSortParm })
+                                </td>
+                                <td class="datacellfoursmall" align="center" style="padding: 2px;">
+                                    @Html.ActionLink((string)ViewBag.Label7, "Interactions", new { sortOrder = ViewBag.RestrictionsSortParm })
+                                </td>
+                                <td class="datacellfoursmall" align="center" style="padding: 2px;">
+                                    @Html.ActionLink((string)ViewBag.Label8, "Interactions", new { sortOrder = ViewBag.LockedOutReasonSortParm })
+                                </td>
+                            </tr>
+
+                            @foreach (var item in Model)
+                    {
+                        ++itemNo;
+                                <tr>
+                                    <td class="datacelltwosmall_nobold" align="center" style="padding: 2px;">@item.AccountID</td>
+                                    <td class="datacelltwosmall_nobold" align="center" style="padding: 2px;">@Html.Raw(item.UserName)</td>
+                                    <td class="datacelltwosmall_nobold" align="center" style="padding: 2px;">@Html.Raw(item.Info)</td>
+                                    <td class="datacelltwosmall_nobold" align="center" style="padding: 2px;">
+                                        @if (item.IsActivated)
+                                        {
+                                            <span style="color: green;" color="green">@item.IsActivated</span>
+                                        }
+                                        else
+                                        {
+                                            <span style="color: red;" color="red">@item.IsActivated</span>
+                                        }
+                                        @if (item.EmailConfirmed && item.IsActivated)
+                                        {
+                                            string linkstr = "/Home/DeactivateAccount/" + item.AccountID;
+                                            <br /><button type="button" onclick="window.location = '@linkstr'">Deactivate</button>
+                                        }
+                                        else if (item.EmailConfirmed)
+                                        {
+                                            string linkstr = "/Home/ActivateAccount/" + item.AccountID;
+                                            <br /><button type="button" onclick="window.location = '@linkstr'">Activate</button>
+                                        }
+                                    </td>
+                                    <td class="datacelltwosmall_nobold" align="center" style="padding: 2px;">
+                                        @if (item.IsLockedOut)
+                                        {
+                                            <span style="color: red;" color="red">@item.IsLockedOut</span>
+                                        }
+                                        else
+                                        {
+                                            @item.IsLockedOut
+                                        }
+                                        @if (item.EmailConfirmed && item.IsLockedOut)
+                                        {
+                                            string linkstr = "/Home/UnLockOutAccount/" + item.AccountID;
+                                            <br /><button type="button" onclick="window.location = '@linkstr'">Unlock</button>
+                                        }
+                                        else if (item.EmailConfirmed)
+                                        {
+                                            string linkstr = "/Home/LockOutAccount/" + item.AccountID;
+                                            <br /><button type="button" onclick="window.location = '@linkstr'">Lock Out</button>
+                                        }
+                                    </td>
+                                    <td class="datacelltwosmall_nobold" align="center" style="padding: 2px;">@Html.Raw(item.LastLockedOutPeriod)</td>
+                                    <td class="datacelltwosmall_nobold" align="center" style="padding: 2px;">@Html.Raw(item.Restrictions)
+                                        @{
+                                            string restrictstr = "/Home/RestrictAccount/" + item.AccountID;
+                                            <br /><button type="button" onclick="window.location = '@restrictstr'">Modify</button>
+                                        }
+                                    </td>
+                                    <td class="datacelltwosmall_nobold" align="center" style="padding: 2px;">@item.LastLockedOutReason</td>
+                                </tr>
+                    }
+                        </table>
+
+                    if (itemNo == 0)
+                    {
+                        <p style="color:#800080">
+                            <i><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;There are no user accounts.</b></i>
+                        </p>
+                    }
+                }
+
+
+            </div>
+
+        <footer>
+            <p>&copy; @DateTime.Now.Year - KSU Corner</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="utf-8" />
+    <title>@ViewBag.Title - KSU Corner</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script src="/Scripts/jquery-1.10.2.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top" style="background-image: url('/Images/background7.jpg')">
+        <div class="container">
+            <div class="navbar-header">
+                <div id="headcontainer">
+                    <h1 style="color: white;">KSU Corner</h1>
+                </div>
+                <div id="menucontainer">
+                    <ul id="menu">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                    </ul>
+                </div>
+                <div class="navbar-collapse collapse">
+                </div>
+            </div>
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+
+    <div class="container body-content">
+        @RenderBody()
+            <p>
+            @Html.Raw(ViewBag.Message2)
+            </p>
+            <p></p>
+
+            @{ using (Html.BeginForm())
+             {
+                <div style="margin-left: 40px;" >
+                <p>
+                @Html.Raw(ViewBag.Message3)
+                </p>
+                <p></p>
+                @Html.Raw(ViewBag.Label1)<br />
+                @Html.TextBox("Answer")<br />
+                <p>&nbsp;</p>
+                <input type="submit" value="Submit" />
+                </div>
+             }
+             }
+
+        <footer>
+            <p>&copy; @DateTime.Now.Year - KSU Corner</p>
+        </footer>
+    </div>
+
+</body>
+</html>
+
